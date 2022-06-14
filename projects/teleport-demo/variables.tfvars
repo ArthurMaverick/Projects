@@ -1,11 +1,15 @@
 ######################
+##### PROJECTNAME #####
+######################
+project_name = "labs"
+
+######################
 ##### KUBERNETES #####
 ######################
-type_project        = "dev"
 initial_node_count  = 1
-cluster_autoscaling = false
 min_nodes_limits    = 1
 max_nodes_limits    = 2
+cluster_autoscaling = false
 
 ######################
 ####### ROLES ########
@@ -31,7 +35,26 @@ role_config = {
       "dns.changes.list", 
       "dns.managedZones.list"
     ]
-  }
+  },
+
 }
 
+######################
+### SERVICECCOUNT ####
+######################
+service_account_name = "teleport-helm"
+display_name         = ""
+account_id           = "teleport-helm"
+description          = "Service account for Teleport Helm Chart"
 
+default_role_bind     = {
+  datastore_owner = {
+    role_bind     = "roles/datastore.owner"
+  },
+  storage_object_creator = {
+    role_bind            = "roles/storage.objectCreator"
+  }
+  storage_object_viewer = {
+    role_bind           = "roles/storage.objectViewer"
+  }
+}

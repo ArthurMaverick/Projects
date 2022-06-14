@@ -1,5 +1,5 @@
 resource "google_container_cluster" "gke_cluster" {
-  name               = "${var.type_project}-cluster"
+  name               = "${var.project_name}-cluster"
   location           = "us-central1"
   initial_node_count = var.initial_node_count
   remove_default_node_pool = true
@@ -15,7 +15,7 @@ resource "google_container_cluster" "gke_cluster" {
 }
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name       = "${var.type_project}-node-pool"
+  name       = "${var.project_name}-node-pool"
   cluster    = google_container_cluster.gke_cluster.id
   node_count = 1
 
