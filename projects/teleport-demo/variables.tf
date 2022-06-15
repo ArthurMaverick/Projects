@@ -7,12 +7,23 @@ variable "project_name" {
 variable "project_display_name" {
   type = string 
 }
-
+variable "project_id" {
+  type = string
+}
 
 
 ######################
 ##### KUBERNETES #####
 ######################
+variable "gke_username" {
+  type = bool
+  default = false
+}
+
+variable "gke_password" {
+  type = bool
+  default = false
+}
 variable "initial_node_count" {
   type = number
   default = 1
@@ -73,5 +84,22 @@ variable "custom_role_bind" {
   type = string
 }
 variable "default_role_bind" {
+  type = string
+}
+
+
+######################
+###  K8S SECRETS  ####
+######################
+variable "secret_name" {
+  type = string
+}
+variable "secret_namespace" {
+  type = string
+}
+variable "secret_key" {
+  type = string
+}
+variable "secret_path" {
   type = string
 }

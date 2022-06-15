@@ -1,11 +1,11 @@
 resource "google_container_cluster" "gke_cluster" {
-  name               = "${var.project_name}-cluster"
-  location           = "us-central1"
-  initial_node_count = var.initial_node_count
+  name                     = "${var.project_name}-cluster"
+  location                 = "us-central1"
+  initial_node_count       = var.initial_node_count
   remove_default_node_pool = true
 
-  network    =  var.network_id
-  subnetwork =  var.subnet_id
+  network    = var.network_id
+  subnetwork = var.subnet_id
 
   ip_allocation_policy {
     cluster_secondary_range_name  = "services-range"
@@ -20,11 +20,22 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   node_count = 1
 
   node_config {
-    preemptible  = true
-    machine_type = "e2-medium"
-    disk_type = "pd-standard"
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    # service_account = google_service_account.gke_cluster.email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
+
+    labels = {
+      env = var.project_id
+    }
+
+    # preemptible  = true
+    machine_type = "n1-standard-1"
+    disk_type    = "pd-standard"
+    tags         = ["gke-node", "${var.project_id}-gke"]
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
   }
 
   cluster_autoscaling {
