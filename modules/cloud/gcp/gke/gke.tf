@@ -1,6 +1,5 @@
 resource "google_container_cluster" "gke_cluster" {
   name                     = "${var.project_name}-cluster"
-  location                 = "us-central1"
   initial_node_count       = var.initial_node_count
   remove_default_node_pool = true
 
